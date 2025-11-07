@@ -13,6 +13,7 @@ Model name is converted to lowercase for the collection name:
 
 from pydantic import BaseModel, Field
 from typing import Optional
+from datetime import datetime
 
 # Example schemas (replace with your own):
 
@@ -41,8 +42,13 @@ class Product(BaseModel):
 # Add your own schemas here:
 # --------------------------------------------------
 
-# Note: The Flames database viewer will automatically:
-# 1. Read these schemas from GET /schema endpoint
-# 2. Use them for document validation when creating/editing
-# 3. Handle all database operations (CRUD) directly
-# 4. You don't need to create any database endpoints!
+class Studentattendance(BaseModel):
+    """
+    Attendance records for students
+    Collection name: "studentattendance"
+    """
+    name: str = Field(..., description="Student full name")
+    nisn: str = Field(..., description="Student ID (NISN)")
+    major: str = Field(..., description="Major/Department")
+    scanned_at: datetime = Field(..., description="Timestamp when QR was scanned (UTC)")
+    source: Optional[str] = Field(None, description="Origin of record: qr or manual")
